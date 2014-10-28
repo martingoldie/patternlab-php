@@ -63,10 +63,10 @@ class Builder {
 		}
 		
 		// set-up the source & public dirs
-		$this->sp = "/../../../source/_patterns".DIRECTORY_SEPARATOR;
-		$this->pp = "/../../../public/patterns".DIRECTORY_SEPARATOR;
-		$this->sd = __DIR__."/../../../source";
-		$this->pd = __DIR__."/../../../public";
+		$this->sp = "/../../../".$this->sourceDirectory."/_patterns".DIRECTORY_SEPARATOR;
+		$this->pp = "/../../../".$this->publicDirectory."/patterns".DIRECTORY_SEPARATOR;
+		$this->sd = __DIR__."/../../../".$this->sourceDirectory;
+		$this->pd = __DIR__."/../../../".$this->publicDirectory;
 		
 		// provide the default for enable CSS. performance hog so it should be run infrequently
 		$this->enableCSS    = false;
@@ -216,7 +216,7 @@ class Builder {
 		$styleGuidePage = $styleGuideHead.$this->mfs->render('viewall',$sd).$styleGuideFoot;
 		
 		if (!file_exists($this->pd."/styleguide/html/styleguide.html")) {
-			print "ERROR: the main style guide wasn't written out. make sure public/styleguide exists. can copy core/styleguide\n";
+			print "ERROR: the main style guide wasn't written out. make sure ".$this->publicDirectory."/styleguide exists. can copy core/styleguide\n";
 		} else {
 			file_put_contents($this->pd."/styleguide/html/styleguide.html",$styleGuidePage);
 		}
@@ -386,7 +386,7 @@ class Builder {
 			$this->d = json_decode(file_get_contents($this->sd."/_data/_data.json"),true);
 			$this->jsonLastErrorMsg("_data/_data.json");
 		} else {
-			print "Missing a required file, source/_data/_data.json. Aborting.\n";
+			print "Missing a required file, ".$this->sourceDirectory."/_data/_data.json. Aborting.\n";
 			exit;
 		}
 		

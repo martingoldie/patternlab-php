@@ -46,7 +46,8 @@ class Migrator {
 			$checkType       = $migrationData->checkType;
 			$sourcePath      = ($checkType == "fileExists") ? $basePath.$migrationData->sourcePath : $basePath.$migrationData->sourcePath.DIRECTORY_SEPARATOR;
 			$destinationPath = ($checkType == "fileExists") ? $basePath.$migrationData->destinationPath : $basePath.$migrationData->destinationPath.DIRECTORY_SEPARATOR;
-			
+			$destinationPath = (strpos($destinationPath, "public") !== false) ? str_replace("public", "../public", $destinationPath) : $destinationPath;
+			$destinationPath = (strpos($destinationPath, "source") !== false) ? str_replace("source", "../source", $destinationPath) : $destinationPath;
 			if ($checkType == "dirEmpty") {
 				
 				$emptyDir = true;

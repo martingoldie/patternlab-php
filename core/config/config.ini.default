@@ -43,7 +43,7 @@ styleGuideExcludes = ""
 cacheBusterOn = "true"
 
 // public directory location
-publicDirectory = "public"
+publicDirectory = "../public"
 
 // source directory location
-sourceDirectory = "source"
+sourceDirectory = "../source"

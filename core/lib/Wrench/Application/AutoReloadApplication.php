@@ -23,51 +23,14 @@ class AutoReloadApplication extends Application {
 	protected $clients          = array();
 	protected $savedTimestamp   = null;
 	protected $c                = false;
+	protected $publicDirectory  = $Builder->publicDirectory;
 	
 	/**
 	* Set the saved timestamp. If the latest-change file doesn't exist simply use the current time as the saved time
 	*/
-	public function __construct($newlines, $config = array()) {
+	public function __construct($newlines) {
 		
 		$this->newlines = $newlines;
-		
-		// making sure the config isn't empty
-		if (empty($config)) {
-			print "A set of configuration options is required to use Pattern Lab.\n";
-			exit;
-		}
-		
-		// populate some standard variables out of the config
-		foreach ($config as $key => $value) {
-			
-			// if the variables are array-like make sure the properties are validated/trimmed/lowercased before saving
-			$arrayKeys = array("ie","id","patternStates","styleGuideExcludes");
-			if (in_array($key,$arrayKeys)) {
-				$values = explode(",",$value);
-				array_walk($values,'PatternLab\Builder::trim');
-				$this->$key = $values;
-			} else if ($key == "ishControlsHide") {
-				$this->$key = new \stdClass();
-				if ($value != "") {
-					$values = explode(",",$value);
-					foreach($values as $value2) {
-						$value2 = trim($value2);
-						$this->$key->$value2 = true;
-					}
-				}
-				if ($this->pageFollowNav == "false") {
-					$value = "tools-follow";
-					$this->$key->$value = true;
-				}
-				if ($this->autoReloadNav == "false") {
-					$value = "tools-reload";
-					$this->$key->$value = true;
-				}
-			} else {
-				$this->$key = $value;
-			}
-			
-		}
 
 		if (file_exists(__DIR__."/../../../../".$this->publicDirectory."/latest-change.txt")) {
 			$this->savedTimestamp = file_get_contents(__DIR__."/../../../../".$this->publicDirectory."/latest-change.txt");
